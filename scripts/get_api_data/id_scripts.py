@@ -889,7 +889,7 @@ class DailyStatistics():
 
 async def dealTasks():
     dates = arrow.now().replace(days=-1).format('YYYYMMDD')
-    for date in [dates,]:
+    for date in [dates, ]:
         dS = DailyStatistics(date)
 
         tasks = [
@@ -931,7 +931,7 @@ async def dealTasks():
 
     # getNewsPushedNewClient 需要滞后两天
     dates = arrow.now().replace(days=-2).format('YYYYMMDD')
-    for date in [dates,]:
+    for date in [dates, ]:
         dS = DailyStatistics(date)
         tasks = [
             dS.getFreshPushRealCtr(),

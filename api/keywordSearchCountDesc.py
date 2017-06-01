@@ -43,7 +43,8 @@ class IDKeywordSearchCountDescHandler(BaseHandler):
     async def getData(self, start_date, end_date):
         data = {}
 
-        dateRange = list(arrow.Arrow.range(frame='day', start=start_date, end=end_date))
+        dateRange = list(arrow.Arrow.range(
+            frame='day', start=start_date, end=end_date))
         for date in reversed(dateRange):
 
             date = str(date).replace('-', '')

@@ -43,7 +43,8 @@ class IDNewsPushedNewClientHandler(BaseHandler):
             ret.update({'validPushSuccess': validPushSuccess})
             ret.update({'validPushClick': validPushClick})
             try:
-                ret.update({'pushReachRatio': validPushSuccess / validPushCount})
+                ret.update({
+                    'pushReachRatio': validPushSuccess / validPushCount})
             except ZeroDivisionError as e:
                 ret.update({'pushReachRatio': 0.00})
             try:
@@ -142,7 +143,8 @@ class BRNewsPushedNewClientHandler(BaseHandler):
             ret.update({'validPushSuccess': validPushSuccess})
             ret.update({'validPushClick': validPushClick})
             try:
-                ret.update({'pushReachRatio': validPushSuccess / validPushCount})
+                ret.update({
+                    'pushReachRatio': validPushSuccess / validPushCount})
             except ZeroDivisionError as e:
                 ret.update({'pushReachRatio': 0.00})
             try:

@@ -108,7 +108,6 @@ class IDNewsCategoryCtrHandler(BaseHandler):
         self.write(json.dumps(res))
 
 
-
 class BRNewsCategoryCtrHandler(BaseHandler):
 
     LOCAL = BRLOCAL
@@ -206,5 +205,3 @@ class BRNewsCategoryCtrHandler(BaseHandler):
         res['errmsg'] = errmsg
         res['data'] = data
         self.write(json.dumps(res))
-
-

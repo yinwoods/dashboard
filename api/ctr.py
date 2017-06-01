@@ -75,7 +75,8 @@ class IDCtrHandler(BaseHandler):
 
             partname = categoryTag.split(':')[0]
             try:
-                percent = '{:.3%}'.format(categoryTagFetch / partfetches[partname])
+                percent = '{:.3%}'.format(
+                        categoryTagFetch / partfetches[partname])
                 ctr = '{:.3%}'.format(categoryTagRead / categoryTagFetch)
             except ZeroDivisionError:
                 percent = '0.00%'
@@ -134,7 +135,8 @@ class IDCtrHandler(BaseHandler):
 
         for partname in partfetches.keys():
             try:
-                category_ctr = '{:.3%}'.format(partreads[partname] / partfetches[partname])
+                category_ctr = '{:.3%}'.format(
+                        partreads[partname] / partfetches[partname])
             except ZeroDivisionError:
                 category_ctr = '0.00%'
 
@@ -203,8 +205,6 @@ class IDCtrHandler(BaseHandler):
         res['errmsg'] = errmsg
         res['data'] = data
         self.write(json.dumps(res))
-
-
 
 
 class BRCtrHandler(BaseHandler):
@@ -273,7 +273,8 @@ class BRCtrHandler(BaseHandler):
 
             partname = categoryTag.split(':')[0]
             try:
-                percent = '{:.3%}'.format(categoryTagFetch / partfetches[partname])
+                percent = '{:.3%}'.format(
+                        categoryTagFetch / partfetches[partname])
                 ctr = '{:.3%}'.format(categoryTagRead / categoryTagFetch)
             except ZeroDivisionError:
                 percent = '0.00%'
@@ -332,7 +333,8 @@ class BRCtrHandler(BaseHandler):
 
         for partname in partfetches.keys():
             try:
-                category_ctr = '{:.3%}'.format(partreads[partname] / partfetches[partname])
+                category_ctr = '{:.3%}'.format(
+                        partreads[partname] / partfetches[partname])
             except ZeroDivisionError:
                 category_ctr = '0.00%'
 
@@ -401,5 +403,3 @@ class BRCtrHandler(BaseHandler):
         res['errmsg'] = errmsg
         res['data'] = data
         self.write(json.dumps(res))
-
-

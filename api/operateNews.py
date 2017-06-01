@@ -1,8 +1,5 @@
 import json
-import inspect
-import arrow
 import asyncio
-from dashboard.config import logger
 from dashboard.config import IDLOCAL
 from dashboard.config import BRLOCAL
 from dashboard.handler.basehandler import BaseHandler
@@ -23,7 +20,8 @@ class IDQueryNewsHandler(BaseHandler):
 
         res = list()
         news_info = dict()
-        keys = ['url', 'media_id', 'title', 'author', 'news_id', 'created_time']
+        keys = ['url', 'media_id', 'title',
+                'author', 'news_id', 'created_time']
 
         query_by = self.get_argument('query_by', None)
         if query_by == 'news_id_list':
@@ -36,7 +34,8 @@ class IDQueryNewsHandler(BaseHandler):
             for news in news_list:
                 news_info = dict()
                 for key in keys:
-                    news_info.update({key: news.__dict__.get(key) for key in keys})
+                    news_info.update({
+                        key: news.__dict__.get(key) for key in keys})
                 for key in ['url', 'title']:
                     news_info.update({key: news_info.get(key).strip()})
                 res.append(news_info)
@@ -47,12 +46,15 @@ class IDQueryNewsHandler(BaseHandler):
             end_time = self.get_argument('end_time', None)
             all_news = []
             for media_id in media_ids.split(','):
-                all_news.append(NIPcommonAPI(self.LOCAL).get_news_list_by_media_id(media_id, start_time, end_time))
+                all_news.append(
+                        NIPcommonAPI(self.LOCAL).get_news_list_by_media_id(
+                            media_id, start_time, end_time))
             for news_list in all_news:
                 for news in news_list:
                     news_info = dict()
                     for key in keys:
-                        news_info.update({key: news.__dict__.get(key) for key in keys})
+                        news_info.update({
+                            key: news.__dict__.get(key) for key in keys})
                     for key in ['url', 'title']:
                         news_info.update({key: news_info.get(key).strip()})
                     res.append(news_info)
@@ -61,11 +63,14 @@ class IDQueryNewsHandler(BaseHandler):
             category_name = self.get_argument('value', None)
             start_time = self.get_argument('start_time', None)
             end_time = self.get_argument('end_time', None)
-            news_list = NIPcommonAPI(self.LOCAL).get_news_list_by_category_name(category_name, start_time, end_time)
+            news_list = NIPcommonAPI(
+                    self.LOCAL).get_news_list_by_category_name(
+                            category_name, start_time, end_time)
             for news in news_list:
                 news_info = dict()
                 for key in keys:
-                    news_info.update({key: news.__dict__.get(key) for key in keys})
+                    news_info.update({
+                        key: news.__dict__.get(key) for key in keys})
                 for key in ['url', 'title']:
                     news_info.update({key: news_info.get(key).strip()})
                 res.append(news_info)
@@ -101,6 +106,7 @@ class IDQueryNewsHandler(BaseHandler):
         res['data'] = data
         self.write(json.dumps(res))
 
+
 class IDRemoveNewsHandler(BaseHandler):
     """
     删除新闻
@@ -133,8 +139,6 @@ class IDRemoveNewsHandler(BaseHandler):
                 res_dict.update({'remove_statu': remove_statu})
                 info.append(res_dict)
         return {'info': info}
-
-
 
     async def getData(self):
         data = dict()
@@ -177,7 +181,8 @@ class BRQueryNewsHandler(BaseHandler):
 
         res = list()
         news_info = dict()
-        keys = ['url', 'media_id', 'title', 'author', 'news_id', 'created_time']
+        keys = ['url', 'media_id', 'title',
+                'author', 'news_id', 'created_time']
 
         query_by = self.get_argument('query_by', None)
         if query_by == 'news_id_list':
@@ -189,7 +194,8 @@ class BRQueryNewsHandler(BaseHandler):
             for news in news_list:
                 news_info = dict()
                 for key in keys:
-                    news_info.update({key: news.__dict__.get(key) for key in keys})
+                    news_info.update({
+                        key: news.__dict__.get(key) for key in keys})
                 for key in ['url', 'title']:
                     news_info.update({key: news_info.get(key).strip()})
                 res.append(news_info)
@@ -200,12 +206,15 @@ class BRQueryNewsHandler(BaseHandler):
             end_time = self.get_argument('end_time', None)
             all_news = []
             for media_id in media_ids.split(','):
-                all_news.append(NIPcommonAPI(self.LOCAL).get_news_list_by_media_id(media_id, start_time, end_time))
+                all_news.append(NIPcommonAPI(
+                    self.LOCAL).get_news_list_by_media_id(
+                        media_id, start_time, end_time))
             for news_list in all_news:
                 for news in news_list:
                     news_info = dict()
                     for key in keys:
-                        news_info.update({key: news.__dict__.get(key) for key in keys})
+                        news_info.update({
+                            key: news.__dict__.get(key) for key in keys})
                     for key in ['url', 'title']:
                         news_info.update({key: news_info.get(key).strip()})
                     res.append(news_info)
@@ -214,11 +223,14 @@ class BRQueryNewsHandler(BaseHandler):
             category_name = self.get_argument('value', None)
             start_time = self.get_argument('start_time', None)
             end_time = self.get_argument('end_time', None)
-            news_list = NIPcommonAPI(self.LOCAL).get_news_list_by_category_name(category_name, start_time, end_time)
+            news_list = NIPcommonAPI(
+                    self.LOCAL).get_news_list_by_category_name(
+                            category_name, start_time, end_time)
             for news in news_list:
                 news_info = dict()
                 for key in keys:
-                    news_info.update({key: news.__dict__.get(key) for key in keys})
+                    news_info.update({
+                        key: news.__dict__.get(key) for key in keys})
                 for key in ['url', 'title']:
                     news_info.update({key: news_info.get(key).strip()})
                 res.append(news_info)
@@ -254,6 +266,7 @@ class BRQueryNewsHandler(BaseHandler):
         res['data'] = data
         self.write(json.dumps(res))
 
+
 class BRRemoveNewsHandler(BaseHandler):
     """
     删除新闻
@@ -286,8 +299,6 @@ class BRRemoveNewsHandler(BaseHandler):
                 res_dict.update({'remove_statu': remove_statu})
                 info.append(res_dict)
         return {'info': info}
-
-
 
     async def getData(self):
         data = dict()

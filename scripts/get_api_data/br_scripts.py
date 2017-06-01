@@ -275,7 +275,7 @@ class DailyStatistics():
         if len(date) == 0:
             date.append(self.date)
             readCount.append(0)
-            fetchCound.append(0)
+            fetchCount.append(0)
             tag.append('')
             pageIndex.append(0)
 

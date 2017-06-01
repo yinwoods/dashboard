@@ -1,6 +1,7 @@
 config.py
 hive/
 logs/
+sql/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

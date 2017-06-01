@@ -139,7 +139,8 @@ class IDHotNewsCtrHandler(BaseHandler):
         for partname in partfetches.keys():
 
             try:
-                part_ctr = '{:.3%}'.format( partreads[partname] / partfetches[partname])
+                part_ctr = '{:.3%}'.format(
+                        partreads[partname] / partfetches[partname])
             except ZeroDivisionError:
                 part_ctr = '0.00%'
 
@@ -208,7 +209,6 @@ class IDHotNewsCtrHandler(BaseHandler):
         res['errmsg'] = errmsg
         res['data'] = data
         self.write(json.dumps(res))
-
 
 
 class BRHotNewsCtrHandler(BaseHandler):
@@ -341,7 +341,8 @@ class BRHotNewsCtrHandler(BaseHandler):
         for partname in partfetches.keys():
 
             try:
-                part_ctr = '{:.3%}'.format( partreads[partname] / partfetches[partname])
+                part_ctr = '{:.3%}'.format(
+                        partreads[partname] / partfetches[partname])
             except ZeroDivisionError:
                 part_ctr = '0.00%'
 
@@ -410,4 +411,3 @@ class BRHotNewsCtrHandler(BaseHandler):
         res['errmsg'] = errmsg
         res['data'] = data
         self.write(json.dumps(res))
-

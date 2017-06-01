@@ -1,12 +1,9 @@
 # coding: utf-8
 import time
 import arrow
-import redis
-import pymssql
 from dashboard.model.DB import DB
 from dashboard.config import DBCONFIG
 from dashboard.config import cache
-from dashboard.config import newscache
 
 
 def main():
@@ -37,7 +34,6 @@ def main():
         )
 
         DB(**DBCONFIG).insert(sql)
-
 
         now = now.replace(seconds=+5)
         time.sleep(5)

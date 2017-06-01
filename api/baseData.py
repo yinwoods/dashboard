@@ -55,7 +55,7 @@ class IDBaseDataQueryHandler(BaseHandler):
             groupby = '%s ' % gb
             if len(with_relative) > 0 and with_relative[0] == '1':
                 where += ' and tag like "RelativeNews:%"'
-            elif  len(with_relative) > 0 and with_relative[0] == '-1':
+            elif len(with_relative) > 0 and with_relative[0] == '-1':
                 where += ' and tag not like "RelativeNews:%"'
 
             for vari in ['click_index', 'tag', 'requestcategoryid',
@@ -85,9 +85,12 @@ class IDBaseDataQueryHandler(BaseHandler):
                         Categories
                 '''.format(categoryid)
                 category_id_name = mssql.query(sql, 'id')
-                category_id_name_dict = ({item['CategoryId']: item['Name'] for item in category_id_name})
+                category_id_name_dict = ({
+                    item['CategoryId']: item['Name']
+                    for item in category_id_name})
                 for item in data:
-                    item.update({'CategoryName': category_id_name_dict.get(int(item.get('categoryid')))})
+                    item.update({'CategoryName': category_id_name_dict.get(
+                        int(item.get('categoryid')))})
 
             for dts in data:
                 if "mediaid" in gb:
@@ -97,7 +100,8 @@ class IDBaseDataQueryHandler(BaseHandler):
                 if dts['present'] == 0:
                     dts['ctr'] = 0
                 else:
-                    dts['ctr'] = '{0:%}'.format(dts.get('click', 0) / dts.get('present', 1))
+                    dts['ctr'] = '{0:%}'.format(
+                            dts.get('click', 0) / dts.get('present', 1))
 
                 for key in ['date', 'left(date, 8)',
                             'right(date, 2)', 'click_index',
@@ -180,7 +184,6 @@ class IDBaseDataQueryHandler(BaseHandler):
         self.write(json.dumps(res))
 
 
-
 class BRBaseDataQueryHandler(BaseHandler):
 
     LOCAL = BRLOCAL
@@ -219,7 +222,7 @@ class BRBaseDataQueryHandler(BaseHandler):
 
             if len(with_relative) > 0 and with_relative[0] == '1':
                 where += ' and tag like "RelativeNews:%"'
-            elif  len(with_relative) > 0 and with_relative[0] == '-1':
+            elif len(with_relative) > 0 and with_relative[0] == '-1':
                 where += ' and tag not like "RelativeNews:%"'
 
             gb = ','.join(gb)
@@ -252,9 +255,12 @@ class BRBaseDataQueryHandler(BaseHandler):
                         Categories
                 '''.format(categoryid)
                 category_id_name = mssql.query(sql, 'id')
-                category_id_name_dict = ({item['CategoryId']: item['Name'] for item in category_id_name})
+                category_id_name_dict = ({
+                    item['CategoryId']: item['Name']
+                    for item in category_id_name})
                 for item in data:
-                    item.update({'CategoryName': category_id_name_dict.get(int(item.get('categoryid')))})
+                    item.update({'CategoryName': category_id_name_dict.get(
+                        int(item.get('categoryid')))})
 
             for dts in data:
                 if "mediaid" in gb:

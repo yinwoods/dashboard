@@ -1,7 +1,4 @@
 import json
-import time
-import arrow
-import pymysql
 import subprocess
 from dashboard.config import HOST
 from dashboard.config import PASSWORD
@@ -17,7 +14,8 @@ def main():
     user = USERNAME
     host = HOST
     for country in ['id', 'br']:
-        position = '/home/renning/tiny_work/banner_ctr/{}_news.result'.format(country)
+        position = ('/home/renning/tiny_work/banner_ctr/'
+                    '{}_news.result').format(country)
 
         command = """
             sshpass -p {password} scp {user}@{host}:{position} ./

@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 import pytz
 import time
 import pymssql
@@ -9,7 +9,9 @@ from dashboard.config import mssqlconfig_online_br
 
 
 def getSQLServerNewInfo(maxCreatedTime):
-    sql = "SELECT COUNT(NewsId) FROM News WHERE CAST(CreatedTime AS DATETIMEOFFSET) > CAST('{}' AS DATETIMEOFFSET)".format(maxCreatedTime)
+    sql = """SELECT COUNT(NewsId) FROM News
+            WHERE CAST(CreatedTime AS DATETIMEOFFSET) >
+            CAST('{}' AS DATETIMEOFFSET)""".format(maxCreatedTime)
     print(sql)
     data = ''
     try:
@@ -21,10 +23,13 @@ def getSQLServerNewInfo(maxCreatedTime):
     except Exception as e:
         print(e)
 
+
 def getMySQLMaxCreatedTime():
-    sqlstring = 'SELECT MAX(newsCreatedTime) as maxCreatedTime FROM daily_report.br_crawlFrequency'
+    sqlstring = '''SELECT MAX(newsCreatedTime) as maxCreatedTime FROM
+                    daily_report.br_crawlFrequency'''
     data = DB(**DBCONFIG).query(sqlstring)
     return data[0]['maxCreatedTime']
+
 
 def transforDataFromSQLServerToMysql():
 
@@ -57,10 +62,12 @@ def transforDataFromSQLServerToMysql():
         newsId = item['NewsId']
         newsCreatedTime = item['time']
         newsType = item['Type']
-        newsCreatedTime= datetime.datetime.utcfromtimestamp(int(newsCreatedTime)).replace(tzinfo=utc)
+        newsCreatedTime = datetime.datetime.utcfromtimestamp(
+                int(newsCreatedTime)).replace(tzinfo=utc)
 
         # 如果newsCreatedTIme 比当前大于等于当前时间则跳过（说明是问题数据）
-        now = datetime.datetime.utcfromtimestamp(time.time()).replace(tzinfo=utc)
+        now = datetime.datetime.utcfromtimestamp(
+                time.time()).replace(tzinfo=utc)
         if newsCreatedTime >= now:
             continue
 
@@ -72,9 +79,10 @@ def transforDataFromSQLServerToMysql():
                    newsId, newsCreatedTime, newsType)
 
         try:
-            data = DB(**DBCONFIG).insert(sql)
+            DB(**DBCONFIG).insert(sql)
         except Exception as e:
             print(e)
+
 
 print(datetime.datetime.now())
 transforDataFromSQLServerToMysql()

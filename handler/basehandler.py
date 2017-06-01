@@ -19,13 +19,13 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def set_default_headers(self):
         self.set_header('Access-Control-Allow-Origin', 'http://localhost:8080')
-        self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, DELETE')
+        self.set_header('Access-Control-Allow-Methods',
+                        'POST, GET, OPTIONS, DELETE')
         self.set_header('Access-Control-Allow-Credentials', 'true')
         self.set_header('Access-Control-Max-Age', 1000)
         self.set_header('Access-Control-Allow-Headers', '*')
 
     def write(self, chunk):
-        '''
         token = self.get_cookie('token')
         token = base64.b64decode(token)
         des = pyDes.des(DES_KEY, pyDes.ECB, padmode=pyDes.PAD_PKCS5)
@@ -52,5 +52,4 @@ class BaseHandler(tornado.web.RequestHandler):
                 errmsg='Token Outdate',
                 data=[]
             )
-        '''
         super(BaseHandler, self).write(chunk)

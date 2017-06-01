@@ -75,7 +75,8 @@ class IDFreshUsersCtrHandler(BaseHandler):
 
             partname = categoryTag.split(':')[0]
             try:
-                percent = '{:.3%}'.format(freshTagFetch / partfetches[partname])
+                percent = '{:.3%}'.format(
+                        freshTagFetch / partfetches[partname])
             except ZeroDivisionError:
                 percent = '0.00%'
 
@@ -138,7 +139,8 @@ class IDFreshUsersCtrHandler(BaseHandler):
         for partname in partfetches.keys():
 
             try:
-                part_ctr = '{:.3%}'.format(partreads[partname] / partfetches[partname])
+                part_ctr = '{:.3%}'.format(
+                        partreads[partname] / partfetches[partname])
             except ZeroDivisionError:
                 part_ctr = '0.00%'
 
@@ -207,7 +209,6 @@ class IDFreshUsersCtrHandler(BaseHandler):
         res['errmsg'] = errmsg
         res['data'] = data
         self.write(json.dumps(res))
-
 
 
 class BRFreshUsersCtrHandler(BaseHandler):
@@ -276,7 +277,8 @@ class BRFreshUsersCtrHandler(BaseHandler):
 
             partname = categoryTag.split(':')[0]
             try:
-                percent = '{:.3%}'.format(freshTagFetch / partfetches[partname])
+                percent = '{:.3%}'.format(
+                        freshTagFetch / partfetches[partname])
             except ZeroDivisionError:
                 percent = '0.00%'
 
@@ -339,7 +341,8 @@ class BRFreshUsersCtrHandler(BaseHandler):
         for partname in partfetches.keys():
 
             try:
-                part_ctr = '{:.3%}'.format(partreads[partname] / partfetches[partname])
+                part_ctr = '{:.3%}'.format(
+                        partreads[partname] / partfetches[partname])
             except ZeroDivisionError:
                 part_ctr = '0.00%'
 
@@ -408,5 +411,3 @@ class BRFreshUsersCtrHandler(BaseHandler):
         res['errmsg'] = errmsg
         res['data'] = data
         self.write(json.dumps(res))
-
-

@@ -1,5 +1,4 @@
 import json
-import arrow
 import asyncio
 from dashboard.model.DB import DB
 from dashboard.config import DBCONFIG
@@ -69,7 +68,6 @@ class IDBannerCTRHandler(BaseHandler):
             self.getBannerCtr()
         ]
 
-        cur_data = dict()
         for task in asyncio.as_completed(tasks):
             data += await task
 
@@ -156,7 +154,6 @@ class BRBannerCTRHandler(BaseHandler):
             self.getBannerCtr()
         ]
 
-        cur_data = dict()
         for task in asyncio.as_completed(tasks):
             data += await task
 

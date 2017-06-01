@@ -32,9 +32,12 @@ JOBS_FILES = [
 ]
 
 TINY_WORK_FILES = [
-    '/home/renning/tiny_work/search_keywords_summary/{country}/keywordSearchCountDesc_{date}.log',
-    '/home/renning/tiny_work/search_keywords_summary/{country}/push_arrival_click_rate_{date}.log',
-    '/home/renning/tiny_work/new_users_ctr/{country}/output/new_users_arrival_click_rate_{date}.log',
+    ('/home/renning/tiny_work/search_keywords_summary/'
+     '{country}/keywordSearchCountDesc_{date}.log'),
+    ('/home/renning/tiny_work/search_keywords_summary/'
+     '{country}/push_arrival_click_rate_{date}.log'),
+    ('/home/renning/tiny_work/new_users_ctr/'
+     '{country}/output/new_users_arrival_click_rate_{date}.log'),
 ]
 
 

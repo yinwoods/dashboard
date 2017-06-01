@@ -201,8 +201,6 @@ class IDUserHandler(BaseHandler):
         self.write(json.dumps(res))
 
 
-
-
 class BRUserHandler(BaseHandler):
 
     LOCAL = BRLOCAL
@@ -393,5 +391,3 @@ class BRUserHandler(BaseHandler):
         res['errmsg'] = errmsg
         res['data'] = data
         self.write(json.dumps(res))
-
-

@@ -9,7 +9,6 @@ from dashboard.config import BRLOCAL
 from dashboard.handler.basehandler import BaseHandler
 
 
-
 class IDCrawlFrequencyHandler(BaseHandler):
 
     LOCAL = IDLOCAL
@@ -27,7 +26,9 @@ class IDCrawlFrequencyHandler(BaseHandler):
                 SELECT
                     count(*) AS crawledNewsNum,
                     sec_to_time(
-                        time_to_sec(newsCreatedTime) - time_to_sec(newsCreatedTime) % (10 * 60)
+                        time_to_sec(newsCreatedTime)
+                        -
+                        time_to_sec(newsCreatedTime) % (10 * 60)
                     ) AS intervals
                 FROM
                     {db}.{table}
@@ -44,7 +45,8 @@ class IDCrawlFrequencyHandler(BaseHandler):
             '''
         else:
             sql = sql + '''
-            AND newsType = {newsType} GROUP BY intervals) as tmp ORDER BY intervals
+            AND newsType = {newsType} GROUP BY intervals) as tmp
+            ORDER BY intervals
             '''.format(
                 newsType=newsType
             )
@@ -83,7 +85,9 @@ class IDCrawlFrequencyHandler(BaseHandler):
         for key in _to_delete_keys:
             ret.pop(key, None)
 
-        ret_lst = [{'time': item[0], 'crawledNewsNum': item[1]} for item in sorted(ret.items(), key=lambda x: arrow.get(x[0], 'H:mm:ss'))]
+        ret_lst = [{'time': item[0], 'crawledNewsNum': item[1]}
+                   for item in sorted(
+                    ret.items(), key=lambda x: arrow.get(x[0], 'H:mm:ss'))]
 
         return ret_lst
 
@@ -143,6 +147,7 @@ class IDCrawlFrequencyHandler(BaseHandler):
         res['data'] = data
         self.write(json.dumps(res))
 
+
 class BRCrawlFrequencyHandler(BaseHandler):
 
     LOCAL = BRLOCAL
@@ -158,7 +163,8 @@ class BRCrawlFrequencyHandler(BaseHandler):
                 SELECT
                     count(*) AS crawledNewsNum,
                     sec_to_time(
-                        time_to_sec(newsCreatedTime) - time_to_sec(newsCreatedTime) % (10 * 60)
+                        time_to_sec(newsCreatedTime) -
+                        time_to_sec(newsCreatedTime) % (10 * 60)
                     ) AS intervals
                 FROM
                     {db}.{table}
@@ -175,7 +181,8 @@ class BRCrawlFrequencyHandler(BaseHandler):
             '''
         else:
             sql = sql + '''
-            AND newsType = {newsType} GROUP BY intervals) as tmp ORDER BY intervals
+            AND newsType = {newsType} GROUP BY intervals) as tmp
+            ORDER BY intervals
             '''.format(
                 newsType=newsType
             )
@@ -213,7 +220,9 @@ class BRCrawlFrequencyHandler(BaseHandler):
         for key in _to_delete_keys:
             ret.pop(key, None)
 
-        ret_lst = [{'time': item[0], 'crawledNewsNum': item[1]} for item in sorted(ret.items(), key=lambda x: arrow.get(x[0], 'H:mm:ss'))]
+        ret_lst = [{'time': item[0], 'crawledNewsNum': item[1]}
+                   for item in sorted(
+                       ret.items(), key=lambda x: arrow.get(x[0], 'H:mm:ss'))]
 
         return ret_lst
 

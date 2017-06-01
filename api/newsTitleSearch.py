@@ -2,9 +2,11 @@ import json
 import arrow
 import asyncio
 from dashboard.model.mssql import query
-from dashboard.config import mssqlconfig_online_id
+from dashboard.config import DATABASE
+from dashboard.config import DBCONFIG
 from dashboard.config import IDLOCAL
 from dashboard.config import BRLOCAL
+from dashboard.model.DB import DB
 from dashboard.handler.basehandler import BaseHandler
 
 
@@ -51,7 +53,6 @@ class IDNewsTitleSearchHandler(BaseHandler):
 
     async def getData(self, title):
         data = []
-
 
         tasks = [
             self.getNewsByTitle(title)

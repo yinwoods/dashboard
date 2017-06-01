@@ -1,13 +1,9 @@
 # coding: utf-8
-import time
 import arrow
-import redis
-import pymssql
 import asyncio
 from dashboard.model.DB import DB
 from dashboard.config import DBCONFIG
 from dashboard.config import cache
-from dashboard.config import newscache
 
 
 async def main():
@@ -26,7 +22,8 @@ async def main():
         writedbnewsqueue_length = cache.llen('writedbnewsqueue')
         videorssqueue_length = cache.llen('videorssqueue')
         print(pagequeue_length, doingsqueue_length, rssqueue_length,
-              videoimagequeue_length, writedbnewsqueue_length, videorssqueue_length)
+              videoimagequeue_length, writedbnewsqueue_length,
+              videorssqueue_length)
 
         sql = '''
         INSERT INTO daily_report.id_crawlStatus(
