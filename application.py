@@ -1,6 +1,7 @@
 # coding:utf-8
 import tornado.web
 
+# 印尼
 from api.user import IDUserHandler
 from api.news import IDNewsHandler
 from api.newsWithoutRelative import IDNewsWithoutRelativeHandler
@@ -28,6 +29,7 @@ from newspusher.pushserver import PushSingleHandler
 from newspusher.pushserver import PushListHandler
 from newspusher.pushserver import PromoteToNewsHandler
 
+# 巴西
 from api.user import BRUserHandler
 from api.news import BRNewsHandler
 from api.newsWithoutRelative import BRNewsWithoutRelativeHandler
@@ -49,6 +51,9 @@ from api.crawlFrequency import BRCrawlFrequencyHandler
 from api.bannerCtr import BRBannerCTRHandler
 from api.operateNews import BRQueryNewsHandler
 from api.operateNews import BRRemoveNewsHandler
+
+# 中东
+from api.crawlFrequency import MECrawlFrequencyHandler
 
 import config
 
@@ -144,6 +149,8 @@ class Application(tornado.web.Application):
             (r"/dashboard/api/br/bannerCtr", BRBannerCTRHandler),
             (r"/dashboard/api/br/queryNews", BRQueryNewsHandler),
             (r"/dashboard/api/br/removeNews", BRRemoveNewsHandler),
+
+            (r"/dashboard/api/me/crawlFrequency", MECrawlFrequencyHandler),
         ]
         settings = {
             "template_path": config.TEMPLATE_PATH,
