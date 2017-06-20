@@ -284,7 +284,6 @@ class BRCrawlFrequencyHandler(BaseHandler):
         self.write(json.dumps(res))
 
 
-
 class MECrawlFrequencyHandler(BaseHandler):
 
     LOCAL = MELOCAL

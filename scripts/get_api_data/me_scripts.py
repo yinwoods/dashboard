@@ -4,17 +4,17 @@ from dashboard.model.DB import DB
 from dashboard.model import mssql
 from dashboard.config import DBCONFIG
 from dashboard.config import DATABASE
-from dashboard.config import BRLOCAL
+from dashboard.config import MELOCAL
 
 
-LOCAL = BRLOCAL
+LOCAL = IDLOCAL
 
 
 class DailyStatistics():
 
     def __init__(self, date):
         self.date = date
-        self.BASEPATH = '../../hive/br/'.format(LOCAL)
+        self.BASEPATH = '../../hive/{}/'.format(LOCAL)
 
     def readFile(self, filename):
         filename = '{0}_{1}.log'.format(
@@ -147,10 +147,13 @@ class DailyStatistics():
 
         content = self.readFile('fetch_read_by_tag')
         for line in content:
-            date.append(self.date)
-            categoryTagRead.append(int(line[0]))
-            categoryTagFetch.append(int(line[1]))
-            categoryTag.append(line[2])
+            try:
+                date.append(self.date)
+                categoryTagRead.append(int(line[0]))
+                categoryTagFetch.append(int(line[1]))
+                categoryTag.append(line[2])
+            except IndexError:
+                continue
 
         if len(date) == 0:
             date.append(self.date)
@@ -313,7 +316,7 @@ class DailyStatistics():
                 readCount.append(int(line[0]))
                 fetchCount.append(int(line[1]))
                 categoryName.append(categoryIdNameDict[categoryId])
-            except Exception as e:
+            except ValueError:
                 continue
 
         if len(date) == 0:
@@ -361,7 +364,9 @@ class DailyStatistics():
         )
 
     async def getNewsPushedNewClient(self):
+        # 推送新闻数
         # 成功推送新闻数
+        # 推送点击数
         date = []
         validPushCount = []
         validPushSuccess = []
@@ -634,10 +639,13 @@ class DailyStatistics():
 
         content = self.readFile('ctr_news')
         for line in content:
-            date.append(self.date)
-            newsId.append(int(line[0]))
-            readCount.append(int(line[1]))
-            fetchCount.append(int(line[2]))
+            try:
+                date.append(self.date)
+                newsId.append(int(line[0]))
+                readCount.append(int(line[1]))
+                fetchCount.append(int(line[2]))
+            except ValueError:
+                continue
 
         if len(date) == 0:
             date.append(self.date)
@@ -661,10 +669,10 @@ class DailyStatistics():
         totalComments = []
         commentsDict = dict()
 
-        start_time = arrow.get(
-                str(self.date) + ' 03:00:00+00:00',
+        end_time = arrow.get(
+                str(self.date) + ' 17:00:00+00:00',
                 'YYYYMMDD HH:mm:ss')
-        end_time = start_time.replace(days=+1)
+        start_time = end_time.replace(days=-1)
 
         sql = '''
             SELECT
@@ -704,10 +712,10 @@ class DailyStatistics():
         crawledNews = []
         crawledNewsWithRelative = []
 
-        start_time = arrow.get(
-                str(self.date) + ' 03:00:00+00:00',
+        end_time = arrow.get(
+                str(self.date) + ' 17:00:00+00:00',
                 'YYYYMMDD HH:mm:ss')
-        end_time = start_time.replace(days=+1)
+        start_time = end_time.replace(days=-1)
 
         sql = '''
             SELECT
@@ -765,10 +773,10 @@ class DailyStatistics():
         newsType = []
         newsCount = []
 
-        start_time = arrow.get(
-                str(self.date) + ' 03:00:00+00:00',
+        end_time = arrow.get(
+                str(self.date) + ' 17:00:00+00:00',
                 'YYYYMMDD HH:mm:ss')
-        end_time = start_time.replace(days=+1)
+        start_time = end_time.replace(days=-1)
 
         sql = '''
             SELECT
@@ -818,18 +826,18 @@ class DailyStatistics():
                 AND {db}.{table1}.newsId = {db}.{table2}.newsId
         '''.format(
             db=DATABASE,
-            table1='{}_ctrNews'.format(LOCAL),
-            table2='{}_pushCtrNews'.format(LOCAL),
+            table1='id_ctrNews',
+            table2='id_pushCtrNews',
             date=self.date
         )
 
         res = DB(**DBCONFIG).query(sql)
         for item in res:
+            date.append(self.date)
             try:
-                date.append(self.date)
                 totalNormalReadCount.append(int(item['totalNormalReadCount']))
-            except Exception:
-                continue
+            except TypeError:
+                totalNormalReadCount.append(0)
 
         if len(date) == 0:
             date.append(self.date)
@@ -849,7 +857,7 @@ class DailyStatistics():
 
         content = self.readFile('keywordSearchCountDesc')
         for line in content:
-            if line[0].startswith('""'):
+            if line[0].startswith('"'):
                 continue
             else:
                 date.append(self.date)
@@ -860,7 +868,7 @@ class DailyStatistics():
             except IndexError:
                 keywordCount.append(0)
 
-        table = 'br_keywordSearchCountDesc'
+        table = 'id_keywordSearchCountDesc'
         sql_base = '''
             INSERT INTO {db}.{table} (date, keyword, keywordCount) VALUES (
         '''.format(
@@ -880,7 +888,7 @@ class DailyStatistics():
 
 
 async def dealTasks():
-    dates = arrow.now().replace(days=-2).format('YYYYMMDD')
+    dates = arrow.now().replace(days=-1).format('YYYYMMDD')
     for date in [dates, ]:
         dS = DailyStatistics(date)
 
@@ -896,8 +904,6 @@ async def dealTasks():
             dS.getFetchReadByTagIndex(),
             dS.getFetchReadByCategory(),
             dS.getPushCtrNews(),
-            dS.getNewsPushedNewClient(),
-            dS.getFreshPushRealCtr(),
             dS.getCountNewsIndex(),
             dS.getReadNewsTimeStatistics(),
             dS.getFetchNewsCountWithoutRelative(),
@@ -913,15 +919,27 @@ async def dealTasks():
 
         '''
         tasks = [
-            dS.getTrendingCtr(),
+            dS.getFreshPushRealCtr(),
         ]
         '''
 
         for task in asyncio.as_completed(tasks):
             await task
 
-        dS.getKeywordSearchCountDesc(),
-        await dS.getPushNewsTotalNormalReadCount(),
+        dS.getKeywordSearchCountDesc()
+        await dS.getPushNewsTotalNormalReadCount()
+
+    # getNewsPushedNewClient 需要滞后两天
+    dates = arrow.now().replace(days=-2).format('YYYYMMDD')
+    for date in [dates, ]:
+        dS = DailyStatistics(date)
+        tasks = [
+            dS.getFreshPushRealCtr(),
+            dS.getNewsPushedNewClient(),
+        ]
+
+        for task in asyncio.as_completed(tasks):
+            await task
 
 
 def main():
