@@ -1,5 +1,6 @@
 # coding:utf-8
 import tornado.web
+import config
 
 # 印尼
 from api.user import IDUserHandler
@@ -53,9 +54,27 @@ from api.operateNews import BRQueryNewsHandler
 from api.operateNews import BRRemoveNewsHandler
 
 # 中东
+from api.user import MEUserHandler
+from api.news import MENewsHandler
+from api.newsWithoutRelative import MENewsWithoutRelativeHandler
+from api.newsCrawled import MENewsCrawledHandler
+from api.newsPushed import MENewsPushedHandler
+from api.newsPushedNewClient import MENewsPushedNewClientHandler
+from api.newsPushedNewUser import MENewsPushedNewUserHandler
+from api.specialClickPosition import MESpecialClickPositionHandler
+from api.newsReadDuration import MENewsReadDurationHandler
+from api.newsTypeCtr import MENewsTypeCtrHandler
+from api.ctr import MECtrHandler
+from api.freshUsersCtr import MEFreshUsersCtrHandler
+from api.hotNewsCtr import MEHotNewsCtrHandler
+from api.newsCategoryCtr import MENewsCategoryCtrHandler
+from api.keywordSearchCountDesc import MEKeywordSearchCountDescHandler
+from api.baseData import MEBaseDataQueryHandler
+from api.latestDate import MELatestDateHandler
 from api.crawlFrequency import MECrawlFrequencyHandler
-
-import config
+from api.bannerCtr import MEBannerCTRHandler
+from api.operateNews import MEQueryNewsHandler
+from api.operateNews import MERemoveNewsHandler
 
 
 class Application(tornado.web.Application):
@@ -149,6 +168,52 @@ class Application(tornado.web.Application):
             (r"/dashboard/api/br/bannerCtr", BRBannerCTRHandler),
             (r"/dashboard/api/br/queryNews", BRQueryNewsHandler),
             (r"/dashboard/api/br/removeNews", BRRemoveNewsHandler),
+
+
+            (r"/dashboard/api/me/user", MEUserHandler),
+            (r"/dashboard/api/me/news", MENewsHandler),
+            (r"/dashboard/api/me/newsWithoutRelative",
+                MENewsWithoutRelativeHandler),
+            (r"/dashboard/api/me/newsCrawled", MENewsCrawledHandler),
+            (r"/dashboard/api/me/newsPushed", MENewsPushedHandler),
+            (r"/dashboard/api/me/newsPushedNewClient",
+                MENewsPushedNewClientHandler),
+            (r"/dashboard/api/me/newsPushedNewUser",
+                MENewsPushedNewUserHandler),
+            (r"/dashboard/api/me/specialClickPosition",
+                MESpecialClickPositionHandler),
+            (r"/dashboard/api/me/newsReadDuration", MENewsReadDurationHandler),
+            (r"/dashboard/api/me/newsTypeCtr", MENewsTypeCtrHandler),
+            (r"/dashboard/api/me/ctr", MECtrHandler),
+            (r"/dashboard/api/me/freshUsersCtr", MEFreshUsersCtrHandler),
+            (r"/dashboard/api/me/hotNewsCtr", MEHotNewsCtrHandler),
+            (r"/dashboard/api/me/newsCategoryCtr", MENewsCategoryCtrHandler),
+            (r"/dashboard/api/me/user", MEUserHandler),
+            (r"/dashboard/api/me/news", MENewsHandler),
+            (r"/dashboard/api/me/newsWithoutRelative",
+                MENewsWithoutRelativeHandler),
+            (r"/dashboard/api/me/newsCrawled", MENewsCrawledHandler),
+            (r"/dashboard/api/me/newsPushed", MENewsPushedHandler),
+            (r"/dashboard/api/me/newsPushedNewClient",
+                MENewsPushedNewClientHandler),
+            (r"/dashboard/api/me/newsPushedNewUser",
+                MENewsPushedNewUserHandler),
+            (r"/dashboard/api/me/specialClickPosition",
+                MESpecialClickPositionHandler),
+            (r"/dashboard/api/me/newsReadDuration", MENewsReadDurationHandler),
+            (r"/dashboard/api/me/newsTypeCtr", MENewsTypeCtrHandler),
+            (r"/dashboard/api/me/ctr", MECtrHandler),
+            (r"/dashboard/api/me/freshUsersCtr", MEFreshUsersCtrHandler),
+            (r"/dashboard/api/me/hotNewsCtr", MEHotNewsCtrHandler),
+            (r"/dashboard/api/me/newsCategoryCtr", MENewsCategoryCtrHandler),
+            (r"/dashboard/api/me/baseDataQuery", MEBaseDataQueryHandler),
+            (r"/dashboard/api/me/keywordSearchCountDesc",
+                MEKeywordSearchCountDescHandler),
+            (r"/dashboard/api/me/latestDate", MELatestDateHandler),
+            (r"/dashboard/api/me/crawlFrequency", MECrawlFrequencyHandler),
+            (r"/dashboard/api/me/bannerCtr", MEBannerCTRHandler),
+            (r"/dashboard/api/me/queryNews", MEQueryNewsHandler),
+            (r"/dashboard/api/me/removeNews", MERemoveNewsHandler),
 
             (r"/dashboard/api/me/crawlFrequency", MECrawlFrequencyHandler),
         ]

@@ -7,7 +7,7 @@ from dashboard.config import DATABASE
 from dashboard.config import MELOCAL
 
 
-LOCAL = IDLOCAL
+LOCAL = MELOCAL
 
 
 class DailyStatistics():
@@ -826,8 +826,8 @@ class DailyStatistics():
                 AND {db}.{table1}.newsId = {db}.{table2}.newsId
         '''.format(
             db=DATABASE,
-            table1='id_ctrNews',
-            table2='id_pushCtrNews',
+            table1='{}_ctrNews'.format(LOCAL),
+            table2='{}_pushCtrNews'.format(LOCAL),
             date=self.date
         )
 
@@ -857,6 +857,7 @@ class DailyStatistics():
 
         content = self.readFile('keywordSearchCountDesc')
         for line in content:
+            print(line)
             if line[0].startswith('"'):
                 continue
             else:
@@ -868,7 +869,7 @@ class DailyStatistics():
             except IndexError:
                 keywordCount.append(0)
 
-        table = 'id_keywordSearchCountDesc'
+        table = '{}_keywordSearchCountDesc'.format(LOCAL)
         sql_base = '''
             INSERT INTO {db}.{table} (date, keyword, keywordCount) VALUES (
         '''.format(

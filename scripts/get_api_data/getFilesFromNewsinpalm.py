@@ -41,92 +41,59 @@ TINY_WORK_FILES = [
 ]
 
 
-# get br JOBs logs
-dates = arrow.now().replace(days=-2).format('YYYYMMDD')
-for date in [dates, ]:
+def get_data(country, jobs_delay, tiny_work_delay):
+    # get JOBs logs
+    dates = arrow.now().replace(days=jobs_delay).format('YYYYMMDD')
 
     user = USERNAME
     host = HOST
 
     for name in JOBS_FILES:
-        name = name.format(date=date)
+        name = name.format(date=dates)
 
-        position = '/home/statistics/result-br/{name}'.format(name=name)
-        command = """
-            sshpass -p {password} scp {user}@{host}:{position} ../../hive/br/
-        """.format(
-            user=user,
-            host=host,
-            password=PASSWORD,
-            position=position
-        )
-        print('getting br ', name)
+        name = '/home/statistics/result-{country}/{name}'.format(
+                    name=name, country=country)
+        command = ('sshpass -p {password} scp {user}@{host}:{name} '
+                   '../../hive/{country}/').format(
+                        user=user,
+                        host=host,
+                        country=country,
+                        password=PASSWORD,
+                        name=name
+                    )
+        print('getting {country} log from {name}'.format(
+                country=country, name=name))
         subprocess.call(command, shell=True)
 
-dates = arrow.now().replace(days=-2).format('YYYYMMDD')
-for date in [dates, ]:
-
-    user = USERNAME
-    host = HOST
-
+    # get tiny_work logs
     for name in TINY_WORK_FILES:
-        position = name.format(country='br', date=date)
+        # 印尼、中东的keywordsearch延迟一天
+        if (country == 'id' or country == 'me') and\
+                'keywordSearchCountDesc_' in str(name):
 
-        command = """
-            sshpass -p {password} scp {user}@{host}:{position} ../../hive/br/
-        """.format(
-            user=user,
-            host=host,
-            password=PASSWORD,
-            position=position
-        )
-        print('getting br', position)
+            dates = arrow.now().replace(
+                    days=tiny_work_delay + 1).format('YYYYMMDD')
+
+        else:
+            dates = arrow.now().replace(
+                    days=tiny_work_delay).format('YYYYMMDD')
+
+        name = name.format(country=country, date=dates)
+
+        command = ('sshpass -p {password} scp {user}@{host}:{name} '
+                   '../../hive/{country}/').format(
+                        user=user,
+                        host=host,
+                        password=PASSWORD,
+                        name=name,
+                        country=country,
+                    )
+        print('getting {country} log from {name}'.format(
+                country=country, name=name))
         subprocess.call(command, shell=True)
 
-# get id JOBs logs
-dates = arrow.now().replace(days=-1).format('YYYYMMDD')
-for date in [dates, ]:
 
-    user = USERNAME
-    host = HOST
-
-    for name in JOBS_FILES:
-        name = name.format(date=date)
-
-        position = '/home/statistics/result-id/{name}'.format(name=name)
-        command = """
-            sshpass -p {password} scp {user}@{host}:{position} ../../hive/id/
-        """.format(
-            user=user,
-            host=host,
-            password=PASSWORD,
-            position=position
-        )
-        print('getting id ', name)
-        subprocess.call(command, shell=True)
-
-for name in TINY_WORK_FILES:
-
-    user = USERNAME
-    host = HOST
-
-    dates = ''
-    if name.endswith('keywordSearchCountDesc_{date}.log'):
-        dates = arrow.now().replace(days=-1).format('YYYYMMDD')
-    else:
-        dates = arrow.now().replace(days=-2).format('YYYYMMDD')
-
-    for date in [dates, ]:
-
-        position = name.format(country='id', date=date)
-
-        command = """
-            sshpass -p {password} scp {user}@{host}:{position} ../../hive/id/
-        """.format(
-            user=user,
-            host=host,
-            password=PASSWORD,
-            position=position
-        )
-        print('getting id ', position)
-        subprocess.call(command, shell=True)
+if __name__ == '__main__':
+    get_data('br', -2, -2)
+    get_data('id', -1, -2)
+    get_data('me', -1, -2)

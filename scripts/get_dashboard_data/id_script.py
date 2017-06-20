@@ -6,6 +6,8 @@ import subprocess
 from dashboard.config import SSH_COMMAND
 from dashboard.config import SCP_COMMAND
 from dashboard.config import ID_TARGET_POS
+from dashboard.config import DATABASE
+from dashboard.config import IDLOCAL
 
 
 class Operation():
@@ -13,9 +15,10 @@ class Operation():
     def __init__(self):
         self.conn = pymysql.connect(
                 host='localhost', user='root',
-                password='root', db='id_dashboard',
+                password='root', db=DATABASE,
                 charset='utf8')
 
+        self.LOCAL = IDLOCAL
         self.cursor = self.conn.cursor()
         self._date = self.getLatestDate()
 
@@ -24,7 +27,7 @@ class Operation():
         self.conn.close()
 
     def getLatestDate(self):
-        sql = 'SELECT MAX(date) FROM dashboard_data'
+        sql = 'SELECT MAX(date) FROM {}_dashboard_data'.format(self.LOCAL)
         self.cursor.execute(sql)
         self.conn.commit()
         latestDate = str(self.cursor.fetchall()[0][0])
@@ -124,7 +127,7 @@ class Operation():
 
     def getInfoId(self):
         # get current max info Id from mysql db
-        sql = "SELECT MAX(infoid) FROM dashboard_data"
+        sql = "SELECT MAX(infoid) FROM {}_dashboard_data".format(self.LOCAL)
         try:
             self.cursor.execute(sql)
             self.conn.commit()
@@ -172,10 +175,10 @@ class Operation():
                     sql = ''
                     try:
                         sql = '''
-                            INSERT INTO dashboard_data(infoid, date, tag,
+                            INSERT INTO {}_dashboard_data(infoid, date, tag,
                             newstype, mediaid, categoryid, requestcategoryid,
                             click_index, presents, clicked) VALUES {}
-                        '''.format(self.formatSQL(
+                        '''.format(self.LOCAL, self.formatSQL(
                             [infoid, date] + line.strip().split('\t')))
                     except Exception as e:
                         print(e)

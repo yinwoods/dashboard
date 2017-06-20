@@ -428,12 +428,12 @@ class MEQueryNewsHandler(BaseHandler):
         self.write(json.dumps(res))
 
 
-class BRRemoveNewsHandler(BaseHandler):
+class MERemoveNewsHandler(BaseHandler):
     """
     删除新闻
     """
     def initialize(self):
-        self.LOCAL = BRLOCAL
+        self.LOCAL = MELOCAL
 
     async def removeNews(self):
         """
