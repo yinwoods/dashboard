@@ -8,6 +8,7 @@ from dashboard.config import DBCONFIG
 from dashboard.config import IDLOCAL
 from dashboard.config import BRLOCAL
 from dashboard.config import MELOCAL
+from dashboard.config import DATABASE
 from dashboard.handler.basehandler import BaseHandler
 
 
@@ -46,7 +47,7 @@ class IDBaseDataQueryHandler(BaseHandler):
             self.finish(json.dumps([]))
         else:
 
-            sfrom = 'FROM id_dashboard.dashboard_data'
+            sfrom = 'FROM {}.{}_dashboard_data'.format(DATABASE, self.LOCAL)
             select = ('CAST(SUM(presents) AS UNSIGNED) AS present,'
                       'CAST(SUM(clicked) AS UNSIGNED) AS click ')
             where = 'WHERE date<=%s and date>=%s' % (
@@ -222,7 +223,7 @@ class BRBaseDataQueryHandler(BaseHandler):
             self.finish(json.dumps([]))
         else:
 
-            sfrom = 'FROM br_dashboard.dashboard_data'
+            sfrom = 'FROM {}.{}_dashboard_data'.format(DATABASE, self.LOCAL)
             select = ('CAST(SUM(presents) AS UNSIGNED) AS present,'
                       'CAST(SUM(clicked) AS UNSIGNED) AS click ')
             where = 'WHERE date<=%s and date>=%s' % (end_date, start_date)
@@ -395,7 +396,7 @@ class MEBaseDataQueryHandler(BaseHandler):
             self.finish(json.dumps([]))
         else:
 
-            sfrom = 'FROM me_dashboard.dashboard_data'
+            sfrom = 'FROM {}.{}_dashboard_data'.format(DATABASE, self.LOCAL)
             select = ('CAST(SUM(presents) AS UNSIGNED) AS present,'
                       'CAST(SUM(clicked) AS UNSIGNED) AS click ')
             where = 'WHERE date<=%s and date>=%s' % (end_date, start_date)

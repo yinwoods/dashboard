@@ -857,7 +857,6 @@ class DailyStatistics():
 
         content = self.readFile('keywordSearchCountDesc')
         for line in content:
-            print(line)
             if line[0].startswith('"'):
                 continue
             else:
