@@ -45,7 +45,8 @@ class Operation():
         scpcommand = SCP_COMMAND
         targetpos = ID_TARGET_POS.format(self._date)
         print('try to get {}'.format(targetpos))
-        destpos = './{date}'.format(date=self._date)
+        destpos = './{country}-{date}'.format(
+                country=self.LOCAL, date=self._date)
         command = "{sshcommand} {scpcommand}:{targetpos} {destpos}".format(
                 sshcommand=sshcommand,
                 scpcommand=scpcommand,
@@ -64,7 +65,8 @@ class Operation():
         for dir in os.listdir(basepath):
             dir = os.path.join(basepath, dir)
 
-            if os.path.isdir(dir):
+            if os.path.isdir(dir) and dir.endswith(
+                    '{0}-{1}'.format(self.LOCAL, self._date)):
                 for file in os.listdir(dir):
                     if file.startswith('.'):
                         try:
@@ -151,9 +153,10 @@ class Operation():
                 except Exception as e:
                     print(e)
 
-        # delete deletable dir
+        # delete empty dir
         for dir in os.listdir(basepath):
-            if os.path.isdir(dir) and not os.listdir(dir):
+            if os.path.isdir(dir) and not os.listdir(dir) and\
+             dir.endswith('{0}-{1}'.format(self.LOCAL, self._date)):
                 try:
                     os.rmdir(dir)
                 except Exception as e:

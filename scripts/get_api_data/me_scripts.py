@@ -888,7 +888,7 @@ class DailyStatistics():
 
 
 async def dealTasks():
-    dates = arrow.now().replace(days=-1).format('YYYYMMDD')
+    dates = arrow.now().replace(days=-2).format('YYYYMMDD')
     for date in [dates, ]:
         dS = DailyStatistics(date)
 
@@ -915,6 +915,8 @@ async def dealTasks():
             dS.getCommentUser(),
             dS.getCrawledNews(),
             dS.getCountNewsByType(),
+            dS.getFreshPushRealCtr(),
+            dS.getNewsPushedNewClient(),
         ]
 
         '''
@@ -928,18 +930,6 @@ async def dealTasks():
 
         dS.getKeywordSearchCountDesc()
         await dS.getPushNewsTotalNormalReadCount()
-
-    # getNewsPushedNewClient 需要滞后两天
-    dates = arrow.now().replace(days=-2).format('YYYYMMDD')
-    for date in [dates, ]:
-        dS = DailyStatistics(date)
-        tasks = [
-            dS.getFreshPushRealCtr(),
-            dS.getNewsPushedNewClient(),
-        ]
-
-        for task in asyncio.as_completed(tasks):
-            await task
 
 
 def main():

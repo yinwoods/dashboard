@@ -96,4 +96,4 @@ def get_data(country, jobs_delay, tiny_work_delay):
 if __name__ == '__main__':
     get_data('br', -2, -2)
     get_data('id', -1, -2)
-    get_data('me', -1, -2)
+    get_data('me', -2, -2)
