@@ -50,10 +50,10 @@ class IDBaseDataQueryHandler(BaseHandler):
             sfrom = 'FROM {}.{}_dashboard_data'.format(DATABASE, self.LOCAL)
             select = ('CAST(SUM(presents) AS UNSIGNED) AS present,'
                       'CAST(SUM(clicked) AS UNSIGNED) AS click ')
-            where = 'WHERE date<=%s and date>=%s' % (
-                    end_date, start_date)
+            where = 'WHERE date<=%s and date>=%s' % (end_date, start_date)
 
             for index, item in enumerate(gb):
+                print(index, item)
                 if item == 'clickindex':
                     gb[index] = 'click_index'
 
@@ -72,6 +72,7 @@ class IDBaseDataQueryHandler(BaseHandler):
 
                     where += ' and  %s in (%s)' % (vari, ','.join(
                         ['"%s"' % i for i in eval(vari)[0].split(',')]))
+
             if gb != '':
                 select += ', %s' % gb
 
@@ -81,6 +82,7 @@ class IDBaseDataQueryHandler(BaseHandler):
                 select, sfrom, where, groupby)
 
             data = DB(**DBCONFIG).query(sql)
+            print(sql)
             res = []
 
             if len(data) > 0 and data[0].get('categoryid') is not None:
@@ -162,6 +164,7 @@ class IDBaseDataQueryHandler(BaseHandler):
                 gb=gb,
                 with_relative=with_relative,
         )
+        print(parameters)
 
         if start_date is None or end_date is None:
             errid = -1
@@ -199,16 +202,18 @@ class BRBaseDataQueryHandler(BaseHandler):
         start_date = parameters.get('start_date')
         end_date = parameters.get('end_date')
 
-        click_index = parameters.get('clickindex')
+        click_index = parameters.get('click_index')
         tag = parameters.get('tag')
         requestcategoryid = parameters.get('requestcategoryid')
         newstype = parameters.get('newstype')
         mediaid = parameters.get('mediaid')
+
         print(click_index, tag, requestcategoryid,
               newstype, mediaid)
+
         categoryid = parameters.get('categoryid')
-        gb = parameters.get('gb')
         with_relative = parameters.get('with_relative')
+        gb = parameters.get('gb')
         medias = dict()
         sql = 'SELECT * FROM Media'
 
@@ -228,13 +233,16 @@ class BRBaseDataQueryHandler(BaseHandler):
                       'CAST(SUM(clicked) AS UNSIGNED) AS click ')
             where = 'WHERE date<=%s and date>=%s' % (end_date, start_date)
 
+            for index, item in enumerate(gb):
+                if item == 'clickindex':
+                    gb[index] = 'click_index'
+
+            gb = ','.join(gb)
+            groupby = '%s ' % gb
             if len(with_relative) > 0 and with_relative[0] == '1':
                 where += ' and tag like "RelativeNews:%"'
             elif len(with_relative) > 0 and with_relative[0] == '-1':
                 where += ' and tag not like "RelativeNews:%"'
-
-            gb = ','.join(gb)
-            groupby = '%s ' % gb
 
             for vari in ['click_index', 'tag', 'requestcategoryid',
                          'newstype', 'mediaid', 'categoryid']:
@@ -252,7 +260,9 @@ class BRBaseDataQueryHandler(BaseHandler):
                 groupby = 'GROUP BY ' + groupby
             sql = 'SELECT %s  %s %s  %s' % (select, sfrom, where, groupby)
 
+            print(sql)
             data = DB(**DBCONFIG).query(sql)
+            print(sql)
             res = []
 
             if len(data) > 0 and data[0].get('categoryid') is not None:
@@ -366,11 +376,14 @@ class MEBaseDataQueryHandler(BaseHandler):
     LOCAL = MELOCAL
 
     async def getQueryData(self, parameters):
+        print('x' * 50)
+        print(parameters)
+        print('x' * 50)
 
         start_date = parameters.get('start_date')
         end_date = parameters.get('end_date')
 
-        click_index = parameters.get('clickindex')
+        click_index = parameters.get('click_index')
         tag = parameters.get('tag')
         requestcategoryid = parameters.get('requestcategoryid')
         newstype = parameters.get('newstype')
@@ -401,13 +414,17 @@ class MEBaseDataQueryHandler(BaseHandler):
                       'CAST(SUM(clicked) AS UNSIGNED) AS click ')
             where = 'WHERE date<=%s and date>=%s' % (end_date, start_date)
 
+            for index, item in enumerate(gb):
+                print(index, item)
+                if item == 'clickindex':
+                    gb[index] = 'click_index'
+
+            gb = ','.join(gb)
+            groupby = '%s ' % gb
             if len(with_relative) > 0 and with_relative[0] == '1':
                 where += ' and tag like "RelativeNews:%"'
             elif len(with_relative) > 0 and with_relative[0] == '-1':
                 where += ' and tag not like "RelativeNews:%"'
-
-            gb = ','.join(gb)
-            groupby = '%s ' % gb
 
             for vari in ['click_index', 'tag', 'requestcategoryid',
                          'newstype', 'mediaid', 'categoryid']:
@@ -425,7 +442,9 @@ class MEBaseDataQueryHandler(BaseHandler):
                 groupby = 'GROUP BY ' + groupby
             sql = 'SELECT %s  %s %s  %s' % (select, sfrom, where, groupby)
 
+            print(sql)
             data = DB(**DBCONFIG).query(sql)
+            print(data)
             res = []
 
             if len(data) > 0 and data[0].get('categoryid') is not None:
