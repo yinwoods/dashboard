@@ -53,7 +53,6 @@ class IDBaseDataQueryHandler(BaseHandler):
             where = 'WHERE date<=%s and date>=%s' % (end_date, start_date)
 
             for index, item in enumerate(gb):
-                print(index, item)
                 if item == 'clickindex':
                     gb[index] = 'click_index'
 
@@ -82,7 +81,6 @@ class IDBaseDataQueryHandler(BaseHandler):
                 select, sfrom, where, groupby)
 
             data = DB(**DBCONFIG).query(sql)
-            print(sql)
             res = []
 
             if len(data) > 0 and data[0].get('categoryid') is not None:
@@ -164,7 +162,6 @@ class IDBaseDataQueryHandler(BaseHandler):
                 gb=gb,
                 with_relative=with_relative,
         )
-        print(parameters)
 
         if start_date is None or end_date is None:
             errid = -1
@@ -260,9 +257,7 @@ class BRBaseDataQueryHandler(BaseHandler):
                 groupby = 'GROUP BY ' + groupby
             sql = 'SELECT %s  %s %s  %s' % (select, sfrom, where, groupby)
 
-            print(sql)
             data = DB(**DBCONFIG).query(sql)
-            print(sql)
             res = []
 
             if len(data) > 0 and data[0].get('categoryid') is not None:
@@ -376,9 +371,6 @@ class MEBaseDataQueryHandler(BaseHandler):
     LOCAL = MELOCAL
 
     async def getQueryData(self, parameters):
-        print('x' * 50)
-        print(parameters)
-        print('x' * 50)
 
         start_date = parameters.get('start_date')
         end_date = parameters.get('end_date')
@@ -415,7 +407,6 @@ class MEBaseDataQueryHandler(BaseHandler):
             where = 'WHERE date<=%s and date>=%s' % (end_date, start_date)
 
             for index, item in enumerate(gb):
-                print(index, item)
                 if item == 'clickindex':
                     gb[index] = 'click_index'
 
@@ -442,9 +433,7 @@ class MEBaseDataQueryHandler(BaseHandler):
                 groupby = 'GROUP BY ' + groupby
             sql = 'SELECT %s  %s %s  %s' % (select, sfrom, where, groupby)
 
-            print(sql)
             data = DB(**DBCONFIG).query(sql)
-            print(data)
             res = []
 
             if len(data) > 0 and data[0].get('categoryid') is not None:
