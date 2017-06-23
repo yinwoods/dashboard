@@ -267,7 +267,7 @@ class BRBaseDataQueryHandler(BaseHandler):
                     FROM
                         Categories
                 '''.format(categoryid)
-                category_id_name = mssql.query(sql, 'id')
+                category_id_name = mssql.query(sql, self.LOCAL)
                 category_id_name_dict = ({
                     item['CategoryId']: item['Name']
                     for item in category_id_name})
@@ -443,7 +443,7 @@ class MEBaseDataQueryHandler(BaseHandler):
                     FROM
                         Categories
                 '''.format(categoryid)
-                category_id_name = mssql.query(sql, 'id')
+                category_id_name = mssql.query(sql, self.LOCAL)
                 category_id_name_dict = ({
                     item['CategoryId']: item['Name']
                     for item in category_id_name})

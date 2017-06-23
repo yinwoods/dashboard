@@ -31,6 +31,9 @@ def query(sql, local):
                 with conn.cursor(as_dict=True) as cursor:
                     res = cursor.execute(sql)
                     res = cursor.fetchall()
+                    print('x' * 50)
+                    print(res)
+                    print('x' * 50)
             return res
         except Exception as e:
             print(str(e))
