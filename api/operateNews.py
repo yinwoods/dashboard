@@ -3,6 +3,8 @@ import asyncio
 from dashboard.config import IDLOCAL
 from dashboard.config import BRLOCAL
 from dashboard.config import MELOCAL
+from dashboard.model.DB import DB
+from dashboard.config import DBCONFIG
 from dashboard.handler.basehandler import BaseHandler
 from nip_common.api import NIPcommonAPI
 
@@ -186,6 +188,7 @@ class BRQueryNewsHandler(BaseHandler):
                 'author', 'news_id', 'created_time']
 
         query_by = self.get_argument('query_by', None)
+
         if query_by == 'news_id_list':
             news_ids = self.get_argument('value', None)
             news_id_list = []
@@ -196,7 +199,7 @@ class BRQueryNewsHandler(BaseHandler):
                 news_info = dict()
                 for key in keys:
                     news_info.update({
-                        key: news.__dict__.get(key) for key in keys})
+                        key: str(news.__dict__.get(key)) for key in keys})
                 for key in ['url', 'title']:
                     news_info.update({key: news_info.get(key).strip()})
                 res.append(news_info)
@@ -215,7 +218,7 @@ class BRQueryNewsHandler(BaseHandler):
                     news_info = dict()
                     for key in keys:
                         news_info.update({
-                            key: news.__dict__.get(key) for key in keys})
+                            key: str(news.__dict__.get(key)) for key in keys})
                     for key in ['url', 'title']:
                         news_info.update({key: news_info.get(key).strip()})
                     res.append(news_info)
@@ -231,10 +234,19 @@ class BRQueryNewsHandler(BaseHandler):
                 news_info = dict()
                 for key in keys:
                     news_info.update({
-                        key: news.__dict__.get(key) for key in keys})
+                        key: str(news.__dict__.get(key)) for key in keys})
                 for key in ['url', 'title']:
                     news_info.update({key: news_info.get(key).strip()})
                 res.append(news_info)
+        elif query_by == 'keyword':
+            keyword = self.get_argument('value', None)
+            sql = """
+                select * from crawlsystem.crawl_rss_data as r,
+                    crawlsystem.crawl_rss_extract_info as i
+                where r.rssid=i.id and r.title like \"%%{}%%\"
+                order by r.id desc limit 1 """.format(keyword)
+            print(res)
+            res = DB(**DBCONFIG).query(sql)
         return res
 
     async def getData(self):
@@ -265,6 +277,7 @@ class BRQueryNewsHandler(BaseHandler):
         res['errid'] = errid
         res['errmsg'] = errmsg
         res['data'] = data
+        print(res)
         self.write(json.dumps(res))
 
 

@@ -26,6 +26,7 @@ class BaseHandler(tornado.web.RequestHandler):
         self.set_header('Access-Control-Allow-Headers', '*')
 
     def write(self, chunk):
+        '''
         token = self.get_cookie('token')
         token = base64.b64decode(token)
         des = pyDes.des(DES_KEY, pyDes.ECB, padmode=pyDes.PAD_PKCS5)
@@ -52,4 +53,5 @@ class BaseHandler(tornado.web.RequestHandler):
                 errmsg='Token Outdate',
                 data=[]
             )
+        '''
         super(BaseHandler, self).write(chunk)

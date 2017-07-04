@@ -922,6 +922,7 @@ async def dealTasks():
         '''
         tasks = [
             dS.getFreshPushRealCtr(),
+            dS.getNewsPushedNewClient(),
         ]
         '''
 

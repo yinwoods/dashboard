@@ -910,10 +910,10 @@ async def dealTasks():
             dS.getCrawledNews(),
             dS.getCountNewsByType(),
         ]
-
         '''
         tasks = [
-            dS.getTrendingCtr(),
+            dS.getFreshPushRealCtr(),
+            dS.getNewsPushedNewClient(),
         ]
         '''
 
