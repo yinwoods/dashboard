@@ -1,8 +1,9 @@
 import arrow
 import subprocess
-from dashboard.config import HOST
-from dashboard.config import PASSWORD
-from dashboard.config import USERNAME
+from dashboard.config import JOBS_HOST
+from dashboard.config import JOBS_USERNAME
+from dashboard.config import TINY_WORK_HOST
+from dashboard.config import TINY_WORK_USERNAME
 
 
 JOBS_FILES = [
@@ -31,12 +32,14 @@ JOBS_FILES = [
     'reads_user_news_{date}.log',
 ]
 
+JOBS_FILES = []
+
 TINY_WORK_FILES = [
-    ('/home/renning/tiny_work/search_keywords_summary/'
+    ('/home/yinwoods/tiny_work/search_keywords_summary/'
      '{country}/keywordSearchCountDesc_{date}.log'),
-    ('/home/renning/tiny_work/search_keywords_summary/'
+    ('/home/yinwoods/tiny_work/search_keywords_summary/'
      '{country}/push_arrival_click_rate_{date}.log'),
-    ('/home/renning/tiny_work/new_users_ctr/'
+    ('/home/yinwoods/tiny_work/new_users_ctr/'
      '{country}/output/new_users_arrival_click_rate_{date}.log'),
 ]
 
@@ -45,25 +48,26 @@ def get_data(country, jobs_delay, tiny_work_delay):
     # get JOBs logs
     dates = arrow.now().replace(days=jobs_delay).format('YYYYMMDD')
 
-    user = USERNAME
-    host = HOST
+    user = JOBS_USERNAME
+    host = JOBS_HOST
 
     for name in JOBS_FILES:
         name = name.format(date=dates)
 
-        name = '/home/statistics/result-{country}/{name}'.format(
+        name = '/datadrive/dailyreports/result-{country}/{name}'.format(
                     name=name, country=country)
-        command = ('sshpass -p {password} scp {user}@{host}:{name} '
-                   '../../hive/{country}/').format(
+        command = ('scp {user}@{host}:{name} ../../hive/{country}/').format(
                         user=user,
                         host=host,
                         country=country,
-                        password=PASSWORD,
                         name=name
                     )
         print('getting {country} log from {name}'.format(
                 country=country, name=name))
         subprocess.call(command, shell=True)
+
+    user = TINY_WORK_USERNAME
+    host = TINY_WORK_HOST
 
     # get tiny_work logs
     for name in TINY_WORK_FILES:
@@ -80,11 +84,9 @@ def get_data(country, jobs_delay, tiny_work_delay):
 
         name = name.format(country=country, date=dates)
 
-        command = ('sshpass -p {password} scp {user}@{host}:{name} '
-                   '../../hive/{country}/').format(
+        command = ('scp {user}@{host}:{name} ../../hive/{country}/').format(
                         user=user,
                         host=host,
-                        password=PASSWORD,
                         name=name,
                         country=country,
                     )

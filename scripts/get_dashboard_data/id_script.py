@@ -3,7 +3,6 @@ import time
 import datetime
 import pymysql
 import subprocess
-from dashboard.config import SSH_COMMAND
 from dashboard.config import SCP_COMMAND
 from dashboard.config import ID_TARGET_POS
 from dashboard.config import DATABASE
@@ -41,14 +40,12 @@ class Operation():
         return date
 
     def scpGetFile(self):
-        sshcommand = SSH_COMMAND
         scpcommand = SCP_COMMAND
         targetpos = ID_TARGET_POS.format(self._date)
         print('try to get {}'.format(targetpos))
         destpos = './{country}-{date}'.format(
                 country=self.LOCAL, date=self._date)
-        command = "{sshcommand} {scpcommand}:{targetpos} {destpos}".format(
-                sshcommand=sshcommand,
+        command = "{scpcommand}:{targetpos} {destpos}".format(
                 scpcommand=scpcommand,
                 targetpos=targetpos,
                 destpos=destpos)

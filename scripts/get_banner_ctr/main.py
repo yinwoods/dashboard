@@ -1,8 +1,7 @@
 import json
 import subprocess
-from dashboard.config import HOST
-from dashboard.config import PASSWORD
-from dashboard.config import USERNAME
+from dashboard.config import TINY_WORK_HOST
+from dashboard.config import TINY_WORK_USERNAME
 from dashboard.config import DBCONFIG
 from dashboard.model.DB import DB
 
@@ -11,20 +10,16 @@ def main():
     """
     获取集群上的文件到本地并插入数据库
     """
-    user = USERNAME
-    host = HOST
+    user = TINY_WORK_USERNAME
+    host = TINY_WORK_HOST
     for country in ['id', 'br']:
-        position = ('/home/renning/tiny_work/banner_ctr/'
+        position = ('/home/yinwoods/tiny_work/banner_ctr/'
                     '{}_news.result').format(country)
 
-        command = """
-            sshpass -p {password} scp {user}@{host}:{position} ./
-        """.format(
-            user=user,
-            host=host,
-            password=PASSWORD,
-            position=position
-        )
+        command = "scp {user}@{host}:{position} ./".format(
+                        user=user,
+                        host=host,
+                        position=position)
         print('getting latest result')
         subprocess.call(command, shell=True)
 
