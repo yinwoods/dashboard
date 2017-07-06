@@ -32,8 +32,6 @@ JOBS_FILES = [
     'reads_user_news_{date}.log',
 ]
 
-JOBS_FILES = []
-
 TINY_WORK_FILES = [
     ('/home/yinwoods/tiny_work/search_keywords_summary/'
      '{country}/keywordSearchCountDesc_{date}.log'),
