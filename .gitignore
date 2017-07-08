@@ -2,7 +2,7 @@ config.py
 hive/
 logs/
 sql/
-*.result
+**.result
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
