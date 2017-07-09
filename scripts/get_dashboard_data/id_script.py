@@ -139,11 +139,11 @@ class Operation():
             print(e)
 
     def markDeletableFile(self, filepos):
-        with open('.to_delete', 'a+') as f:
+        with open('.{}_to_delete'.format(self.LOCAL), 'a+') as f:
             f.write(str(filepos) + '\n')
 
     def deleteDeletableFile(self, basepath):
-        with open('.to_delete', 'r') as f:
+        with open('.{}_to_delete'.format(self.LOCAL), 'r') as f:
             for line in f.readlines():
                 try:
                     os.remove(line.strip())
@@ -159,7 +159,7 @@ class Operation():
                 except Exception as e:
                     print(e)
 
-        with open('.to_delete', 'w') as f:
+        with open('.{}_to_delete'.format(self.LOCAL), 'w') as f:
             f.write('')
 
     def run(self):
