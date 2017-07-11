@@ -3,6 +3,9 @@ hive/
 logs/
 sql/
 **.result
+**.id_to_delete
+**.br_to_delete
+**.me_to_delete
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
