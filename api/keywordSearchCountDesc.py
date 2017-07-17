@@ -205,7 +205,6 @@ class MEKeywordSearchCountDescHandler(BaseHandler):
                 {db}.{table}
             WHERE
                 date = {date}
-            AND keywordCount > 1
             ORDER BY keywordCount DESC
         '''.format(
                 db=DATABASE,
