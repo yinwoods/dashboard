@@ -1,4 +1,4 @@
-import json
+import ast
 import subprocess
 from dashboard.config import TINY_WORK_HOST
 from dashboard.config import TINY_WORK_USERNAME
@@ -25,8 +25,8 @@ def main():
 
         with open('{}_news.result'.format(country), 'r') as f:
             for line in f:
-                line = line.replace("'", '"')
-                line = json.loads(line)
+                # line = line.replace("'", '"')
+                line = ast.literal_eval(line)
 
                 news_id = line.get('news_id')
                 start_time = line.get('start_time')
@@ -53,9 +53,10 @@ def main():
                                 news_id, start_time, end_time,
                                 impression_cnt, click_cnt, page_id, title)
                             VALUES(
-                                '{news_id}', '{start_time}', '{end_time}',
-                                {impression_cnt}, {click_cnt}, '{page_id}',
-                                '{title}')
+                                "{news_id!s}", "{start_time!s}",
+                                "{end_time!s}", {impression_cnt},
+                                {click_cnt}, "{page_id!s}",
+                                "{title!s}")
                     '''
 
                     sql = sql.format(
