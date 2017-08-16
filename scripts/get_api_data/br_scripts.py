@@ -314,7 +314,7 @@ class DailyStatistics():
                 fetchCount.append(int(line[1]))
                 categoryName.append(categoryIdNameDict[categoryId])
             except Exception as e:
-                continue
+                pass
 
         if len(date) == 0:
             date.append(self.date)
@@ -829,7 +829,7 @@ class DailyStatistics():
                 date.append(self.date)
                 totalNormalReadCount.append(int(item['totalNormalReadCount']))
             except Exception:
-                continue
+                pass
 
         if len(date) == 0:
             date.append(self.date)
@@ -876,7 +876,7 @@ class DailyStatistics():
             try:
                 DB(**DBCONFIG).insert(sql)
             except Exception:
-                continue
+                pass
 
 
 async def dealTasks():

@@ -153,7 +153,7 @@ class DailyStatistics():
                 categoryTagFetch.append(int(line[1]))
                 categoryTag.append(line[2])
             except IndexError:
-                continue
+                pass
 
         if len(date) == 0:
             date.append(self.date)
@@ -317,7 +317,7 @@ class DailyStatistics():
                 fetchCount.append(int(line[1]))
                 categoryName.append(categoryIdNameDict[categoryId])
             except ValueError:
-                continue
+                pass
 
         if len(date) == 0:
             date.append(self.date)
@@ -645,7 +645,7 @@ class DailyStatistics():
                 readCount.append(int(line[1]))
                 fetchCount.append(int(line[2]))
             except ValueError:
-                continue
+                pass
 
         if len(date) == 0:
             date.append(self.date)
@@ -884,7 +884,7 @@ class DailyStatistics():
             try:
                 DB(**DBCONFIG).insert(sql)
             except Exception:
-                continue
+                pass
 
 
 async def dealTasks():
@@ -922,10 +922,10 @@ async def dealTasks():
             dS.getFreshPushRealCtr(),
             dS.getNewsPushedNewClient(),
         ]
-        '''
 
         for task in asyncio.as_completed(tasks):
             await task
+        '''
 
         dS.getKeywordSearchCountDesc()
         await dS.getPushNewsTotalNormalReadCount()

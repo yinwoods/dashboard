@@ -52,7 +52,8 @@ class IDHotNewsCtrHandler(BaseHandler):
             totalRead += hotTagRead
             totalFetch += hotTagFetch
 
-            validTags = ['JOKE', 'VIDEO', 'FUNNY', 'RELATIVENEWS']
+            validTags = ['JOKE', 'VIDEO', 'FUNNY',
+                         'RELATIVENEWS', 'LOCKEDSCREEN']
             if all(tag not in categoryTag.upper() for tag in validTags):
                 validRead += hotTagRead
                 validFetch += hotTagFetch
@@ -254,7 +255,8 @@ class BRHotNewsCtrHandler(BaseHandler):
             totalRead += hotTagRead
             totalFetch += hotTagFetch
 
-            validTags = ['JOKE', 'VIDEO', 'FUNNY', 'RELATIVENEWS']
+            validTags = ['JOKE', 'VIDEO', 'FUNNY',
+                         'RELATIVENEWS', 'LOCKEDSCREEN']
             if all(tag not in categoryTag.upper() for tag in validTags):
                 validRead += hotTagRead
                 validFetch += hotTagFetch
@@ -456,7 +458,8 @@ class MEHotNewsCtrHandler(BaseHandler):
             totalRead += hotTagRead
             totalFetch += hotTagFetch
 
-            validTags = ['JOKE', 'VIDEO', 'FUNNY', 'RELATIVENEWS']
+            validTags = ['JOKE', 'VIDEO', 'FUNNY',
+                         'RELATIVENEWS', 'LOCKEDSCREEN']
             if all(tag not in categoryTag.upper() for tag in validTags):
                 validRead += hotTagRead
                 validFetch += hotTagFetch

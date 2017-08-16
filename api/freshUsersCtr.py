@@ -52,7 +52,8 @@ class IDFreshUsersCtrHandler(BaseHandler):
             totalRead += freshTagRead
             totalFetch += freshTagFetch
 
-            validTags = ['JOKE', 'VIDEO', 'FUNNY', 'RELATIVENEWS']
+            validTags = ['JOKE', 'VIDEO', 'FUNNY',
+                         'RELATIVENEWS', 'LOCKEDSCREEN']
             if all(tag not in categoryTag.upper() for tag in validTags):
                 validRead += freshTagRead
                 validFetch += freshTagFetch
@@ -254,7 +255,8 @@ class BRFreshUsersCtrHandler(BaseHandler):
             totalRead += freshTagRead
             totalFetch += freshTagFetch
 
-            validTags = ['JOKE', 'VIDEO', 'FUNNY', 'RELATIVENEWS']
+            validTags = ['JOKE', 'VIDEO', 'FUNNY',
+                         'RELATIVENEWS', 'LOCKEDSCREEN']
             if all(tag not in categoryTag.upper() for tag in validTags):
                 validRead += freshTagRead
                 validFetch += freshTagFetch
@@ -456,7 +458,8 @@ class MEFreshUsersCtrHandler(BaseHandler):
             totalRead += freshTagRead
             totalFetch += freshTagFetch
 
-            validTags = ['JOKE', 'VIDEO', 'FUNNY', 'RELATIVENEWS']
+            validTags = ['JOKE', 'VIDEO', 'FUNNY',
+                         'RELATIVENEWS', 'LOCKEDSCREEN']
             if all(tag not in categoryTag.upper() for tag in validTags):
                 validRead += freshTagRead
                 validFetch += freshTagFetch

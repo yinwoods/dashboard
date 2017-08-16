@@ -52,7 +52,8 @@ class IDCtrHandler(BaseHandler):
             totalRead += categoryTagRead
             totalFetch += categoryTagFetch
 
-            validTags = ['JOKE', 'VIDEO', 'FUNNY', 'RELATIVENEWS']
+            validTags = ['JOKE', 'VIDEO', 'FUNNY',
+                         'RELATIVENEWS', 'LOCKEDSCREEN']
             if all(tag not in categoryTag.upper() for tag in validTags):
                 validRead += categoryTagRead
                 validFetch += categoryTagFetch
@@ -250,7 +251,8 @@ class BRCtrHandler(BaseHandler):
             totalRead += categoryTagRead
             totalFetch += categoryTagFetch
 
-            validTags = ['JOKE', 'VIDEO', 'FUNNY', 'RELATIVENEWS']
+            validTags = ['JOKE', 'VIDEO', 'FUNNY',
+                         'RELATIVENEWS', 'LOCKEDSCREEN']
             if all(tag not in categoryTag.upper() for tag in validTags):
                 validRead += categoryTagRead
                 validFetch += categoryTagFetch
@@ -448,7 +450,8 @@ class MECtrHandler(BaseHandler):
             totalRead += categoryTagRead
             totalFetch += categoryTagFetch
 
-            validTags = ['JOKE', 'VIDEO', 'FUNNY', 'RELATIVENEWS']
+            validTags = ['JOKE', 'VIDEO', 'FUNNY',
+                         'RELATIVENEWS', 'LOCKEDSCREEN']
             if all(tag not in categoryTag.upper() for tag in validTags):
                 validRead += categoryTagRead
                 validFetch += categoryTagFetch
