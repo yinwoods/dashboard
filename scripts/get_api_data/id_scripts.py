@@ -922,10 +922,10 @@ async def dealTasks():
             dS.getFreshPushRealCtr(),
             dS.getNewsPushedNewClient(),
         ]
+        '''
 
         for task in asyncio.as_completed(tasks):
             await task
-        '''
 
         dS.getKeywordSearchCountDesc()
         await dS.getPushNewsTotalNormalReadCount()
