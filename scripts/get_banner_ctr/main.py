@@ -1,9 +1,14 @@
 import ast
 import subprocess
+from sqlalchemy import create_engine
+from sqlalchemy.sql import text
+from dashboard.config import DBSTRING
 from dashboard.config import TINY_WORK_HOST
 from dashboard.config import TINY_WORK_USERNAME
-from dashboard.config import DBCONFIG
-from dashboard.model.DB import DB
+
+
+engine = create_engine(DBSTRING)
+conn = engine.connect()
 
 
 def main():
@@ -38,13 +43,19 @@ def main():
 
                 sql = '''
                     SELECT
-                        *
+                        count(*)
                     FROM
                         daily_report.{}_bannerCtr
                     WHERE
                         page_id = '{}'
                 '''.format(country, page_id)
-                cnt = DB(**DBCONFIG).queryResultCnt(sql)
+
+                try:
+                    cnt = conn.execute(text(sql)).fetchone()[0]
+                except Exception as e:
+                    print(e)
+                    cnt = 0
+
                 print(page_id, cnt)
                 if cnt == 0:
                     sql = '''
@@ -53,23 +64,17 @@ def main():
                                 news_id, start_time, end_time,
                                 impression_cnt, click_cnt, page_id, title)
                             VALUES(
-                                "{news_id!s}", "{start_time!s}",
-                                "{end_time!s}", {impression_cnt},
-                                {click_cnt}, "{page_id!s}",
-                                "{title!s}")
+                                {0!r}, {1!r}, {2!r}, {3}, {4}, {5!r}, {6!r})
                     '''
 
                     sql = sql.format(
-                        country=country,
-                        news_id=news_id,
-                        start_time=start_time,
-                        end_time=end_time,
-                        impression_cnt=impression_cnt,
-                        click_cnt=click_cnt,
-                        page_id=page_id,
-                        title=title
+                        country, news_id, start_time, end_time,
+                        impression_cnt, click_cnt, page_id, title
                     )
-                    DB(**DBCONFIG).insert(sql)
+                    try:
+                        conn.execute(text(sql))
+                    except Exception as e:
+                        print(e)
                     print('insert new record with news_id: {}'.format(news_id))
 
 
