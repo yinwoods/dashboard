@@ -60,11 +60,11 @@ def main():
                 if cnt == 0:
                     sql = '''
                         INSERT INTO
-                            daily_report.{country}_bannerCtr(
+                            daily_report.{0}_bannerCtr(
                                 news_id, start_time, end_time,
                                 impression_cnt, click_cnt, page_id, title)
                             VALUES(
-                                {0!r}, {1!r}, {2!r}, {3}, {4}, {5!r}, {6!r})
+                                {1!r}, {2!r}, {3!r}, {4}, {5}, {6!r}, {7!r})
                     '''
 
                     sql = sql.format(
