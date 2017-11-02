@@ -21,13 +21,14 @@ class IDKeywordSearchCountDescHandler(BaseHandler):
 
         sql = '''
             SELECT
-                keyword, keywordCount
+                keyword, sum(keywordCount) AS keyword_count
             FROM
                 {db}.{table}
             WHERE
                 date = {date}
             AND keywordCount > 1
-            ORDER BY keywordCount DESC
+            GROUP BY keyword
+            ORDER BY keyword_count DESC
         '''.format(
                 db=DATABASE,
                 table=table,
@@ -38,7 +39,7 @@ class IDKeywordSearchCountDescHandler(BaseHandler):
         for item in res:
             lst.append({
                 'keyword': item['keyword'],
-                'keywordCount': item['keywordCount']
+                'keywordCount': int(item.get('keyword_count', 0))
             })
         ret.update({self.date: lst})
         return ret
@@ -111,13 +112,14 @@ class BRKeywordSearchCountDescHandler(BaseHandler):
 
         sql = '''
             SELECT
-                keyword, keywordCount
+                keyword, SUM(keywordCount) AS keyword_count
             FROM
                 {db}.{table}
             WHERE
                 date = {date}
             AND keywordCount > 1
-            ORDER BY keywordCount DESC
+            GROUP BY keyword
+            ORDER BY keyword_count DESC
         '''.format(
                 db=DATABASE,
                 table=table,
@@ -128,7 +130,7 @@ class BRKeywordSearchCountDescHandler(BaseHandler):
         for item in res:
             lst.append({
                 'keyword': item['keyword'],
-                'keywordCount': item['keywordCount']
+                'keywordCount': int(item.get('keyword_count', 0))
             })
         ret.update({self.date: lst})
         return ret
@@ -200,12 +202,13 @@ class MEKeywordSearchCountDescHandler(BaseHandler):
 
         sql = '''
             SELECT
-                keyword, keywordCount
+                keyword, SUM(keywordCount) AS keyword_count
             FROM
                 {db}.{table}
             WHERE
                 date = {date}
-            ORDER BY keywordCount DESC
+            GROUP BY keyword
+            ORDER BY keyword_count DESC
         '''.format(
                 db=DATABASE,
                 table=table,
@@ -216,7 +219,7 @@ class MEKeywordSearchCountDescHandler(BaseHandler):
         for item in res:
             lst.append({
                 'keyword': item['keyword'],
-                'keywordCount': item['keywordCount']
+                'keywordCount': int(item.get('keyword_count', 0))
             })
         ret.update({self.date: lst})
         return ret
