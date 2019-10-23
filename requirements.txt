@@ -63,7 +63,7 @@ sklearn==0.0
 SQLAlchemy==1.1.5
 ssh-import-id==5.5
 system-service==0.3
-tablib==0.11.4
+tablib==0.11.5
 test==2.3.4.5
 tools==0.1.9
 tornado==4.4.2
